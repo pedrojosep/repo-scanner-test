@@ -14,6 +14,7 @@ def submit_data():
     if utils.process(user_data):
         return jsonify({"message": "Data proccesed successfully"}), 200
 
+    print(user_data)
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
