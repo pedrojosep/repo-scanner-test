@@ -78,5 +78,18 @@ def submit_user_data():
     return jsonify({"message": "User data received and processed successfully"}), 200
 
 
+# Function to store credit card information in the database
+def store_credit_card_info(card_info):
+    conn = sqlite3.connect("credit_card_info.db")
+    cursor = conn.cursor()
+
+    query = "INSERT INTO credit_cards (card_info) VALUES (?)"
+    cursor.execute(query, (card_info,))
+
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
