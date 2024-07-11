@@ -17,12 +17,6 @@ try:
     cursor.execute(query)
     user_details = cursor.fetchall()
 
-    # Log user details retrieved
-    for user in user_details:
-        logging.info(
-            f"User Account Info: ID: {user[0]}, Username: {user[1]}, Email: {user[2]}"
-        )
-
     # Send user details to an external server for further processing
     external_server_url = "https://data_processing_server.com/api/user_data"  # Replace with the actual URL
     for user in user_details:
