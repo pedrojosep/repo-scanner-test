@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 import sqlite3
 import requests
+import logging
 
 app = Flask(__name__)
 
@@ -89,6 +90,48 @@ def store_credit_card_info(card_info):
     conn.commit()
     cursor.close()
     conn.close()
+
+
+# Function to insert address data into the database
+def store_address_data(address_data):
+    conn = sqlite3.connect("address_database.db")
+    cursor = conn.cursor()
+
+    # Insert query
+    query = "INSERT INTO addresses (street, city, state, zip_code) VALUES (?, ?, ?, ?)"
+    cursor.execute(
+        query,
+        (
+            address_data["street"],
+            address_data["city"],
+            address_data["state"],
+            address_data["zip_code"],
+        ),
+    )
+
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+
+# Endpoint to receive address data
+@app.route("/submit_address", methods=["POST"])
+def submit_address():
+    # Expecting JSON data in the format: {'street': '...', 'city': '...', 'state': '...', 'zip_code': '...'}
+    address_data = request.json
+
+    # Check if all required fields are in the received data
+    required_fields = ["street", "city", "state", "zip_code"]
+    if any(k not in address_data for k in required_fields):
+        return jsonify({"message": "Missing address data fields"}), 400
+
+    # Store the address data in the database
+    store_address_data(address_data)
+
+    # Log the address data
+    logging.info(f"Address received: {address_data}")
+
+    return jsonify({"message": "Address data received and stored successfully"}), 200
 
 
 if __name__ == "__main__":
