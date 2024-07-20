@@ -16,5 +16,8 @@ class UserAge:
     def set_age(self, age):
         self.age = age
 
+    def set_credit_card(self, cc):
+	self.credit_card = cc
+
     def __str__(self):
         return f"User age: {self.age}"
