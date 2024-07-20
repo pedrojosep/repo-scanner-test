@@ -1,5 +1,3 @@
-# test webhook
-
 def main():
     user_age = 25
     user_name = "John"
