@@ -2,6 +2,7 @@ def main():
     user_age = 25
     user_name = "John"
     page = 2
+    url = "google.com"
 
     print(f"User age: {user_age}")
 
